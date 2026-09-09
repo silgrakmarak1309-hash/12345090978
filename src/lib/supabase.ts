@@ -4,13 +4,14 @@ import { createClient, SupabaseClient } from '@supabase/supabase-js';
 export function getEnvVar(key: string, fallback: string = ''): string {
   try {
     // 1. Check Vite import.meta.env
+    const metaAny = import.meta as any;
     if (
-      typeof import.meta !== 'undefined' &&
-      import.meta.env &&
-      typeof import.meta.env[key] === 'string' &&
-      import.meta.env[key]
+      typeof metaAny !== 'undefined' &&
+      metaAny?.env &&
+      typeof metaAny.env[key] === 'string' &&
+      metaAny.env[key]
     ) {
-      return import.meta.env[key];
+      return metaAny.env[key];
     }
   } catch (_) {
     // Ignore in non-Vite runtimes
